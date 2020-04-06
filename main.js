@@ -124,13 +124,13 @@ function getMoreDetails(latitude,longitude){
       localStorage.setItem('ip', result.ip);
     })
     .done(function() {
-      console.log( "second success" );
+      // console.log( "second success" );
     })
     .fail(function() {
       console.log( "error" );
     })
     .always(function() {
-      console.log( "complete" );
+      // console.log( "complete" );
     });
     // request.send();
    request.open(method, weatherUrl, async);
@@ -156,6 +156,7 @@ function getLocation() {
       }
     }
     showPosition()
+   
   }
 
   function saveLoc(position) { 
@@ -167,9 +168,13 @@ function getLocation() {
      // history.innerHTML="Latitude: " + localStorage.getItem("latitude") + 
       "<br>Longitude: " + localStorage.getItem("longitude");
       getMoreDetails(localStorage.getItem("latitude"),localStorage.getItem("longitude"))
+      puData()
   }
 
   function puData() {
+
+  
+    if (localStorage.getItem('ip') != null && localStorage.getItem('weather') != null ) {
       let ip = localStorage.getItem('ip');
       let data = JSON.parse(localStorage.getItem('weather'));
       let iconUrl = data.observations.location[0].observation[0].iconLink + '?apiKey=WmS1Kg3mOO7NFOfJN8ZkpYbGDtnhufv9Iwopue2asZw'
@@ -182,10 +187,22 @@ function getLocation() {
       } else {
         weatherPage.style.backgroundColor = "rgb(9, 43, 71)"
       }
-      }
-  getLocation();
-  puData();
-  var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRlxdhin5fGn5xAQDO6FjUm0Zy8gs7s9gyP-TZGd855b4MZmKgBh-fD-VlMy3f-TB4Q_QT39XZnYReQ/pubhtml';
+      localStorage.setItem('weatherDisp', 1);
+      clearInterval(dispId);
+    }
+  }
+      
+   
+    getLocation();
+    var dispId = setInterval(showPosition, 1000);
+    
+    // while ( localStorage.getItem('ip') != null) {
+    //   if (localStorage.getItem('weatherDisp') == 1) {
+    //     clearInterval(dispId);
+    //   }
+    // }
+
+
 
 
   
